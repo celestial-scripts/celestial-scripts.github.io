@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Celestial Scripts</title>
+    <style>
+        html, body {
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            background-color: black;
+            display: flex;
+            flex: 1;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .heading-container {
+            color: white;
+            font-family: sans-serif;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="heading-container">
+        <h1>Celestial Scripts</h1>
+        <h2>get the beta now</h2>
+        <a style="color: DodgerBlue;" href="https://github.com/celestial-scripts/celestial-v2">click here</a>
+    </div>
+    <canvas id="myCanvas" style="margin: 0px; padding: 0px; position: fixed; z-index: -1; top: 0; left: 0;"></canvas>
+    <script>
+        function animate() {
+            canvas.width = document.documentElement.clientWidth;
+            canvas.height = document.documentElement.clientHeight;
+
+            if (stars.length < canvas.width / 4) {
+                let star = {
+                    x: canvas.width / 2,
+                    y: canvas.height / 2,
+                    vx: -5 + Math.random() * 10,
+                    vy: -5 + Math.random() * 10
+                };
+                stars.push(star);
+            }
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < stars.length; i++) {
+                stars[i].x += stars[i].vx;
+                stars[i].y += stars[i].vy;
+                if (stars[i].x > canvas.width || stars[i].x < 0) {
+                    stars[i].x = canvas.width / 2;
+                    stars[i].y = canvas.height / 2;
+                }
+                color = Math.floor((Math.abs(stars[i].x - (canvas.width / 2)) + Math.abs(stars[i].y - (canvas.height / 2))) / 6);
+                context.fillStyle = 'rgb(' + color + ',' + color + ',' + color + ')';
+                context.beginPath();
+                context.arc(stars[i].x, stars[i].y, (Math.abs((stars[i].y - (canvas.height / 2)) / 100) + Math.abs((stars[i].x - (canvas.width / 2)) / 100)) / 2, 0, 2 * Math.PI);
+                context.fill()
+            }
+            window.requestAnimationFrame(animate);
+        }
+        let canvas = document.getElementById('myCanvas');
+        let context = canvas.getContext('2d');
+        canvas.width = document.documentElement.clientWidth;
+        canvas.height = document.documentElement.clientHeight;
+        let stars = [];
+        window.requestAnimationFrame(animate);
+    </script>
+</body>
+
+</html>
